@@ -1,0 +1,37 @@
+{
+  "name": "web3-ops-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-chain operations dashboard: wallet consent, contract import, portfolio/allowance scans, strategy engine, Permit2, CREATE2, delegations, Telegram approvals.",
+  "license": "Apache-2.0",
+  "engines": { "node": ">=20" },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "services/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md}\"",
+    "dev:web": "npm --workspace @ops/web run dev",
+    "dev:embed": "npm --workspace @ops/embed run dev"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "dependencies": {
+    "viem": "^2.21.55",
+    "zod": "^3.24.1"
+  }
+}

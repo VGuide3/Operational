@@ -1,0 +1,23 @@
+{
+  "name": "@ops/embed",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/script.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "build": "esbuild src/script.ts --bundle --format=iife --minify --outfile=dist/script.js"
+  },
+  "dependencies": {
+    "@ops/core": "*",
+    "@ops/chains": "*",
+    "@ops/ui": "*"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5"
+  }
+}

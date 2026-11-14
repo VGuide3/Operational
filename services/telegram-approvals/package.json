@@ -1,0 +1,23 @@
+{
+  "name": "@ops/service-telegram-approvals",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": { "typecheck": "tsc --noEmit -p tsconfig.json" },
+  "dependencies": {
+    "@ops/approvals": "*",
+    "@ops/audit": "*",
+    "@ops/chains": "*",
+    "@ops/contracts": "*",
+    "@ops/core": "*",
+    "@ops/eip712": "*",
+    "@ops/permit2": "*",
+    "@ops/strategy-engine": "*",
+    "@ops/telemetry": "*",
+    "@ops/ui": "*",
+    "viem": "^2.21.55",
+    "zod": "^3.24.1"
+  }
+}

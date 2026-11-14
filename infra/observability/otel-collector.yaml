@@ -1,0 +1,47 @@
+# OpenTelemetry Collector configuration.
+#
+# Structured logs and traces from the web/API and execution services are
+# exported here. PII (IP, user agent) is hashed before export.
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+  memory_limiter:
+    check_interval: 2s
+    limit_percentage: 75
+    spike_limit_percentage: 20
+  attributes/hash-pii:
+    actions:
+      - key: http.client_ip
+        action: hash
+      - key: user_agent.original
+        action: hash
+
+exporters:
+  prometheus:
+    endpoint: 0.0.0.0:8889
+  logging:
+    verbosity: normal
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, attributes/hash-pii, batch]
+      exporters: [logging]
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, attributes/hash-pii, batch]
+      exporters: [logging]

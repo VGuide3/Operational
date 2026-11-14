@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ops-relayer
+  labels:
+    app: ops-relayer
+    boundary: execution
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ops-relayer
+  template:
+    metadata:
+      labels:
+        app: ops-relayer
+        boundary: execution
+    spec:
+      serviceAccountName: ops-relayer
+      containers:
+        - name: relayer
+          image: ghcr.io/example/ops-relayer:latest
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ops-db
+                  key: url
+            - name: KMS_RELAYER_KEY_ID
+              value: ${KMS_RELAYER_KEY_ID}
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: '1'
+              memory: 512Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ['ALL']

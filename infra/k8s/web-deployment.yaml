@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ops-web
+  labels:
+    app: ops-web
+    boundary: application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ops-web
+  template:
+    metadata:
+      labels:
+        app: ops-web
+        boundary: application
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/example/ops-web:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_APP_ORIGIN
+              value: https://ops.example.com
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ops-db
+                  key: url
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ops-redis
+                  key: url
+          readinessProbe:
+            httpGet:
+              path: /api/v1/ready
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: '1'
+              memory: 1Gi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ['ALL']
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ops-web
+spec:
+  selector:
+    app: ops-web
+  ports:
+    - port: 80
+      targetPort: 3000

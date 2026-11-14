@@ -1,0 +1,147 @@
+:root {
+  --ops-bg: #0b0e17;
+  --ops-surface: #121726;
+  --ops-border: #232a42;
+  --ops-text: #e6e8f0;
+  --ops-muted: #98a0bd;
+  --ops-accent: #5b8def;
+  --ops-danger: #e5534b;
+  --ops-ok: #3fb950;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ops-bg);
+  color: var(--ops-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+a {
+  color: var(--ops-accent);
+}
+
+.ops-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.ops-nav {
+  border-right: 1px solid var(--ops-border);
+  padding: 16px;
+  background: var(--ops-surface);
+}
+
+.ops-nav a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--ops-muted);
+}
+
+.ops-nav a[aria-current='page'] {
+  background: #1a2138;
+  color: var(--ops-text);
+}
+
+.ops-main {
+  padding: 24px;
+  max-width: 1100px;
+}
+
+.ops-card {
+  background: var(--ops-surface);
+  border: 1px solid var(--ops-border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.ops-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1e2540;
+  font-size: 12px;
+  color: var(--ops-muted);
+}
+
+.ops-danger {
+  color: var(--ops-danger);
+}
+
+.ops-ok {
+  color: var(--ops-ok);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid var(--ops-border);
+  font-size: 14px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--ops-border);
+  background: #1a2138;
+  color: var(--ops-text);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+button.ops-primary {
+  background: var(--ops-accent);
+  border-color: var(--ops-accent);
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ops-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.ops-modal {
+  background: var(--ops-surface);
+  border: 1px solid var(--ops-border);
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 440px;
+  width: 100%;
+}
+
+.ops-modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ops-fresh {
+  font-size: 12px;
+  color: var(--ops-muted);
+}

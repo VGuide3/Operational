@@ -1,0 +1,58 @@
+groups:
+  - name: ops-dashboard
+    rules:
+      - alert: AuditChainDiscontinuity
+        expr: increase(ops_audit_chain_discontinuity_total[5m]) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Audit-chain hash discontinuity detected'
+          runbook: 'docs/runbooks/audit-chain-discontinuity.md'
+
+      - alert: TelegramApprovalReplay
+        expr: increase(ops_approval_replay_total[10m]) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Replayed Telegram approval callback rejected'
+          runbook: 'docs/runbooks/telegram-approval-replay.md'
+
+      - alert: RelayerBalanceLow
+        expr: ops_relayer_balance_wei < ops_relayer_min_balance_wei
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Relayer native balance below threshold'
+          runbook: 'docs/runbooks/relayer-balance-depletion.md'
+
+      - alert: ScannerStaleness
+        expr: time() - ops_scanner_last_success_timestamp_seconds > 900
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Scanner data older than threshold'
+          runbook: 'docs/runbooks/scanner-staleness.md'
+
+      - alert: UnlimitedApprovalCreated
+        expr: increase(ops_unlimited_approval_total[5m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: 'An unlimited token approval was created'
+
+      - alert: SignatureVerificationFailures
+        expr: increase(ops_signature_verification_failure_total[5m]) > 10
+        labels:
+          severity: warning
+        annotations:
+          summary: 'Repeated signature-verification failures'
+
+      - alert: Create2BytecodeMismatch
+        expr: increase(ops_create2_bytecode_mismatch_total[5m]) > 0
+        labels:
+          severity: critical
+        annotations:
+          summary: 'Deployed bytecode hash did not match expected'
+          runbook: 'docs/runbooks/create2-address-mismatch.md'
